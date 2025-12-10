@@ -1,34 +1,32 @@
 # Allo Bank Backend Test - Implementation Documentation
 
-## 📋 Project Overview
+## Project Overview
 
 This project is a complete implementation of the Allo Bank Backend Developer Take-Home Test. It demonstrates a production-ready Spring Boot REST API that aggregates Indonesian Rupiah (IDR) exchange rate data from the Frankfurter API using advanced architectural patterns.
 
-## 👤 Personalization
+## Personalization
 
-**GitHub Username:** `yourusername`
-**Spread Factor:** `0.00XXX` *(calculated from username)*
-
-> **Note:** Replace `yourusername` in `application.properties` with your actual GitHub username before running the application.
+**GitHub Username:** `akayasha`
+**Spread Factor:** `0.00835` (calculated from username)
 
 ### Spread Factor Calculation
 
 The application calculates a unique spread factor based on your GitHub username:
 
-1. Convert GitHub username to lowercase
-2. Calculate sum of Unicode values of all characters
-3. Spread Factor = (Sum % 1000) / 100000.0
-4. USD_BuySpread_IDR = (1 / Rate_USD) * (1 + Spread Factor)
+1. **Input:** Your GitHub username (e.g., akayasha)
+2. **Calculation:** Calculate the sum of the Unicode (ASCII) values of all characters in your lowercase GitHub username string
+3. **Spread Factor Derivation:** Spread Factor = (Sum of Unicode Values % 1000) / 100000.0 (This will yield a unique factor between 0.00000 and 0.00999, ensuring a personalized result)
+4. **Final Formula:** USD_BuySpread_IDR = (1 / Rate_USD) * (1 + Spread Factor) (where Rate_USD is the value from the API when base=IDR)
 
-**Example Calculation:**
+**Example Calculation for username 'akayasha':**
 ```
-Username: "johndoe"
-Unicode Sum: j(106) + o(111) + h(104) + n(110) + d(100) + o(111) + e(101) = 743
-Spread Factor: (743 % 1000) / 100000.0 = 0.00743
-If USD rate = 0.00006, then USD_BuySpread_IDR = (1/0.00006) * 1.00743 = 16,790.50
+Unicode sum: a(97) + k(107) + a(97) + y(121) + a(97) + s(115) + h(104) + a(97) = 835
+Spread Factor: (835 % 1000) / 100000.0 = 835 / 100000.0 = 0.00835
+If Rate_USD from API = 0.000063 IDR, then:
+  USD_BuySpread_IDR = (1 / 0.000063) * (1 + 0.00835) = 15,873.02 * 1.00835 = 16,005.58
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Java 17 or higher
@@ -68,7 +66,7 @@ mvn test -Dtest=LatestIDRRatesStrategyTest
 mvn clean test jacoco:report
 ```
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### Main Endpoint
 
@@ -174,7 +172,7 @@ curl -X GET http://localhost:8080/api/finance/data/invalid_type
 }
 ```
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ### Design Patterns Implemented
 
@@ -253,7 +251,7 @@ src/
             └── FinanceControllerIntegrationTest.java
 ```
 
-## 🛠️ Architectural Rationale
+## Architectural Rationale
 
 ### 1. Polymorphism Justification: Why Strategy Pattern?
 
@@ -423,7 +421,7 @@ Benefits:
 - Less explicit about blocking startup sequence
 - Cannot gracefully handle external API failures during startup
 
-##  Testing
+## Testing
 
 ### Test Coverage
 
@@ -458,7 +456,7 @@ All tests pass successfully:
 - `SupportedCurrenciesStrategyTest` - Currency list fetching
 - `FinanceControllerIntegrationTest` - End-to-end API testing
 
-##  Key Features
+## Key Features
 
 ### Production-Ready Features
 
@@ -487,7 +485,7 @@ All tests pass successfully:
     - Consistent response format (`ApiResponse<T>`)
     - Proper HTTP status codes
 
-## 🔧 Configuration
+## Configuration
 
 ### Application Properties
 
@@ -500,7 +498,7 @@ frankfurter.api.base-url=https://api.frankfurter.app
 frankfurter.api.timeout=10000
 
 # GitHub Username (MUST BE CHANGED)
-github.username=yourusername
+github.username=akayasha
 
 # Logging
 logging.level.com.allo.backend=DEBUG
